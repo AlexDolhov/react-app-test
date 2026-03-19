@@ -1,7 +1,6 @@
 import statusFilters from "./constants";
 
-const initialState = {
-  tasks: [
+const tasksInitialState = [
     { id: 0, text: "Learn HTML and CSS", completed: true },
     { id: 1, text: "Get good at JavaScript", completed: true },
     { id: 2, text: "Master React", completed: false },
@@ -11,48 +10,52 @@ const initialState = {
       id: 5,
       text: "Blabla bla bla bla Blabla bla bla bla Blabla bla bla bla Blabla bla bla bla",
       completed: true,
-    },
-  ],
+    }
+  ];
 
-  filters: {
-    status: statusFilters.all,
-  },
-};
+const filtersInitialState = {status: statusFilters.all};
 
-export const rootReducer = (state = initialState, action) => {
+const tasksReducer = (state = tasksInitialState, action) => {
 
   switch (action.type) {
     case "tasks/addTask":
-      return {
+      return [
         ...state,
-        tasks: [...state.tasks, action.payload],
-      };
-    case "tasks/deleteTask":
-      return {
-        ...state,
-        tasks: state.tasks.filter(task => task.id !== action.payload),
-      };
-    case "tasks/toggleCompleted":
-      return {
-        ...state,
-        tasks: state.tasks.map(task => {
-          if (task !== action.payload) {
-            return task;
-          };
-          return {
-            ...task,
-            completed: !task.completed,
-          };
-        })
-      };
+        action.payload,
+      ];
     
-    case "filters/setStatusFilter":
-      return {
-        ...state,
-        filters: { ...state.filters, status: action.payload },
-      };
-            
+    case "tasks/deleteTask":
+      return state.filter(task => task.id !== action.payload);
+    
+    case "tasks/toggleCompleted":
+      return state.map(task => {
+        if (task !== action.payload) {
+          return task;
+        };
+        return {
+          ...task,
+          completed: !task.completed,
+        };
+      });
+
     default:
       return state;
   }
+};
+
+const filtersReducer = (state = filtersInitialState, action) => {
+  switch (action.type) {
+    case "filters/setStatusFilter":
+      return { ...state, status: action.payload };
+    
+    default:
+      return state;
+  };
+};
+
+export const rootReducer = (state = {}, action) => {
+  return {
+    tasks: tasksReducer(state.tasks, action),
+    filters: filtersReducer(state.filters, action)
+  };
 };

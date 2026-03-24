@@ -1,6 +1,5 @@
-import { combineReducers } from "redux";
-import statusFilters from "./constants";
 
+import statusFilters from "./constants";
 
 const tasksInitialState = [
     { id: 0, text: "Learn HTML and CSS", completed: true },
@@ -17,7 +16,7 @@ const tasksInitialState = [
 
 const filtersInitialState = {status: statusFilters.all};
 
-const tasksReducer = (state = tasksInitialState, action) => {
+export const tasksReducer = (state = tasksInitialState, action) => {
 
   switch (action.type) {
     case "tasks/addTask":
@@ -45,7 +44,7 @@ const tasksReducer = (state = tasksInitialState, action) => {
   }
 };
 
-const filtersReducer = (state = filtersInitialState, action) => {
+export const filtersReducer = (state = filtersInitialState, action) => {
   switch (action.type) {
     case "filters/setStatusFilter":
       return { ...state, status: action.payload };
@@ -54,8 +53,3 @@ const filtersReducer = (state = filtersInitialState, action) => {
       return state;
   };
 };
-
-export const rootReducer = combineReducers({
-  tasks: tasksReducer,
-  filters: filtersReducer,
-});

@@ -24,7 +24,6 @@ export const tasksReducer = (state = tasksInitialState, action) => {
         ...state,
         action.payload,
       ];
-    9
     case deleteTask.type:
       return state.filter(task => task.id !== action.payload);
     

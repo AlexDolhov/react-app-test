@@ -1,4 +1,4 @@
-
+import { addTask, deleteTask,toggleCompleted, setStatusFilter } from "./actions";
 import statusFilters from "./constants";
 
 const tasksInitialState = [
@@ -19,16 +19,16 @@ const filtersInitialState = {status: statusFilters.all};
 export const tasksReducer = (state = tasksInitialState, action) => {
 
   switch (action.type) {
-    case "tasks/addTask":
+    case addTask.type:
       return [
         ...state,
         action.payload,
       ];
-    
-    case "tasks/deleteTask":
+    9
+    case deleteTask.type:
       return state.filter(task => task.id !== action.payload);
     
-    case "tasks/toggleCompleted":
+    case toggleCompleted.type:
       return state.map(task => {
         if (task !== action.payload) {
           return task;
@@ -46,7 +46,7 @@ export const tasksReducer = (state = tasksInitialState, action) => {
 
 export const filtersReducer = (state = filtersInitialState, action) => {
   switch (action.type) {
-    case "filters/setStatusFilter":
+    case setStatusFilter.type:
       return { ...state, status: action.payload };
     
     default:
